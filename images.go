@@ -20,7 +20,7 @@ type ImagesService interface {
 	GetByID(context.Context, int) (*Image, *Response, error)
 	GetBySlug(context.Context, string) (*Image, *Response, error)
 	Create(context.Context, *CustomImageCreateRequest) (*Image, *Response, error)
-	Update(context.Context, int, *ImageUpdateRequest) (*Image, *Response, error)
+	Update(context.Context, string, *ImageUpdateRequest) (*Image, *Response, error)
 	Delete(context.Context, int) (*Response, error)
 }
 
@@ -34,7 +34,7 @@ var _ ImagesService = &ImagesServiceOp{}
 
 // Image represents a DigitalOcean Image
 type Image struct {
-	ID            int      `json:"id,float64,omitempty"`
+	ID            string   `json:"id,omitempty"`
 	Name          string   `json:"name,omitempty"`
 	Type          string   `json:"type,omitempty"`
 	Distribution  string   `json:"distribution,omitempty"`
@@ -155,16 +155,12 @@ func (s *ImagesServiceOp) Create(ctx context.Context, createRequest *CustomImage
 }
 
 // Update an image name.
-func (s *ImagesServiceOp) Update(ctx context.Context, imageID int, updateRequest *ImageUpdateRequest) (*Image, *Response, error) {
-	if imageID < 1 {
-		return nil, nil, NewArgError("imageID", "cannot be less than 1")
-	}
-
+func (s *ImagesServiceOp) Update(ctx context.Context, imageID string, updateRequest *ImageUpdateRequest) (*Image, *Response, error) {
 	if updateRequest == nil {
 		return nil, nil, NewArgError("updateRequest", "cannot be nil")
 	}
 
-	path := fmt.Sprintf("%s/%d", imageBasePath, imageID)
+	path := fmt.Sprintf("%s/%s", imageBasePath, imageID)
 	req, err := s.client.NewRequest(ctx, http.MethodPut, path, updateRequest)
 	if err != nil {
 		return nil, nil, err

@@ -30,7 +30,7 @@ func TestImageActions_Transfer(t *testing.T) {
 
 	})
 
-	transfer, _, err := client.ImageActions.Transfer(ctx, 12345, transferRequest)
+	transfer, _, err := client.ImageActions.Transfer(ctx, "12345", transferRequest)
 	if err != nil {
 		t.Errorf("ImageActions.Transfer returned error: %v", err)
 	}
@@ -65,7 +65,7 @@ func TestImageActions_Convert(t *testing.T) {
 
 	})
 
-	transfer, _, err := client.ImageActions.Convert(ctx, 12345)
+	transfer, _, err := client.ImageActions.Convert(ctx, "12345")
 	if err != nil {
 		t.Errorf("ImageActions.Transfer returned error: %v", err)
 	}
@@ -85,7 +85,7 @@ func TestImageActions_Get(t *testing.T) {
 		fmt.Fprintf(w, `{"action":{"status":"in-progress"}}`)
 	})
 
-	action, _, err := client.ImageActions.Get(ctx, 123, 456)
+	action, _, err := client.ImageActions.Get(ctx, "123", 456)
 	if err != nil {
 		t.Errorf("ImageActions.Get returned error: %v", err)
 	}

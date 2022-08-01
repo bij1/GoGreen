@@ -10,9 +10,9 @@ import (
 // endpoints of the DigitalOcean API
 // See: https://docs.digitalocean.com/reference/api/api-reference/#tag/Image-Actions
 type ImageActionsService interface {
-	Get(context.Context, int, int) (*Action, *Response, error)
-	Transfer(context.Context, int, *ActionRequest) (*Action, *Response, error)
-	Convert(context.Context, int) (*Action, *Response, error)
+	Get(context.Context, string, int) (*Action, *Response, error)
+	Transfer(context.Context, string, *ActionRequest) (*Action, *Response, error)
+	Convert(context.Context, string) (*Action, *Response, error)
 }
 
 // ImageActionsServiceOp handles communication with the image action related methods of the
@@ -24,16 +24,12 @@ type ImageActionsServiceOp struct {
 var _ ImageActionsService = &ImageActionsServiceOp{}
 
 // Transfer an image
-func (i *ImageActionsServiceOp) Transfer(ctx context.Context, imageID int, transferRequest *ActionRequest) (*Action, *Response, error) {
-	if imageID < 1 {
-		return nil, nil, NewArgError("imageID", "cannot be less than 1")
-	}
-
+func (i *ImageActionsServiceOp) Transfer(ctx context.Context, imageID string, transferRequest *ActionRequest) (*Action, *Response, error) {
 	if transferRequest == nil {
 		return nil, nil, NewArgError("transferRequest", "cannot be nil")
 	}
 
-	path := fmt.Sprintf("v2/images/%d/actions", imageID)
+	path := fmt.Sprintf("v2/images/%s/actions", imageID)
 
 	req, err := i.client.NewRequest(ctx, http.MethodPost, path, transferRequest)
 	if err != nil {
@@ -50,12 +46,8 @@ func (i *ImageActionsServiceOp) Transfer(ctx context.Context, imageID int, trans
 }
 
 // Convert an image to a snapshot
-func (i *ImageActionsServiceOp) Convert(ctx context.Context, imageID int) (*Action, *Response, error) {
-	if imageID < 1 {
-		return nil, nil, NewArgError("imageID", "cannont be less than 1")
-	}
-
-	path := fmt.Sprintf("v2/images/%d/actions", imageID)
+func (i *ImageActionsServiceOp) Convert(ctx context.Context, imageID string) (*Action, *Response, error) {
+	path := fmt.Sprintf("v2/images/%s/actions", imageID)
 
 	convertRequest := &ActionRequest{
 		"type": "convert",
@@ -76,16 +68,12 @@ func (i *ImageActionsServiceOp) Convert(ctx context.Context, imageID int) (*Acti
 }
 
 // Get an action for a particular image by id.
-func (i *ImageActionsServiceOp) Get(ctx context.Context, imageID, actionID int) (*Action, *Response, error) {
-	if imageID < 1 {
-		return nil, nil, NewArgError("imageID", "cannot be less than 1")
-	}
-
+func (i *ImageActionsServiceOp) Get(ctx context.Context, imageID string, actionID int) (*Action, *Response, error) {
 	if actionID < 1 {
 		return nil, nil, NewArgError("actionID", "cannot be less than 1")
 	}
 
-	path := fmt.Sprintf("v2/images/%d/actions/%d", imageID, actionID)
+	path := fmt.Sprintf("v2/images/%s/actions/%d", imageID, actionID)
 
 	req, err := i.client.NewRequest(ctx, http.MethodGet, path, nil)
 	if err != nil {

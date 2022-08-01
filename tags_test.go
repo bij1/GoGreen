@@ -140,7 +140,7 @@ var (
 							]
 						},
 						"image": {
-							"id": 119192817,
+							"id": "119192817",
 							"name": "Ubuntu 13.04",
 							"distribution": "ubuntu",
 							"slug": "ubuntu1304",

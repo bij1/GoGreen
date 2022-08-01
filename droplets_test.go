@@ -663,10 +663,10 @@ func TestDroplets_Snapshots(t *testing.T) {
 		fmt.Fprint(w, `{
 			"snapshots": [
 				{
-					"id": 1
+					"id": "1"
 				},
 				{
-					"id": 2
+					"id": "2"
 				}
 			],
 			"meta": {
@@ -681,7 +681,7 @@ func TestDroplets_Snapshots(t *testing.T) {
 		t.Errorf("Droplets.Snapshots returned error: %v", err)
 	}
 
-	expectedSnapshots := []Image{{ID: 1}, {ID: 2}}
+	expectedSnapshots := []Image{{ID: "1"}, {ID: "2"}}
 	if !reflect.DeepEqual(snapshots, expectedSnapshots) {
 		t.Errorf("Droplets.Snapshots\nSnapshots got=%#v\nwant=%#v", snapshots, expectedSnapshots)
 	}
@@ -700,10 +700,10 @@ func TestDroplets_Backups(t *testing.T) {
 		fmt.Fprint(w, `{
 			"backups": [
 				{
-					"id": 1
+					"id": "1"
 				},
 				{
-					"id": 2
+					"id": "2"
 				}
 			],
 			"meta": {
@@ -718,7 +718,7 @@ func TestDroplets_Backups(t *testing.T) {
 		t.Errorf("Droplets.Backups returned error: %v", err)
 	}
 
-	expectedBackups := []Image{{ID: 1}, {ID: 2}}
+	expectedBackups := []Image{{ID: "1"}, {ID: "2"}}
 	if !reflect.DeepEqual(backups, expectedBackups) {
 		t.Errorf("Droplets.Backups\nBackups got=%#v\nwant=%#v", backups, expectedBackups)
 	}
