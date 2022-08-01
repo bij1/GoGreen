@@ -21,7 +21,7 @@ import (
 
 const (
 	libraryVersion = "1.81.0"
-	defaultBaseURL = "https://api.digitalocean.com/"
+	defaultBaseURL = "https://service.greenhost.net/"
 	userAgent      = "godo/" + libraryVersion
 	mediaType      = "application/json"
 
